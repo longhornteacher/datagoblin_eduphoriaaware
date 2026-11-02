@@ -1,0 +1,42 @@
+{
+  "policy_version": "1.1.0",
+  "normalizer": "aware_results.standards.normalize_standard",
+  "canonical_format": "LEVEL_OR_COURSE.NUMBER.EXPECTATION[.subexpectation]",
+  "canonical_pattern": "^(0|[1-9]|1[0-2]|[A-Z][A-Z0-9_-]{0,31})\\.[1-9][0-9]*\\.[A-Z](?:\\.[a-z0-9]+)*$",
+  "components": [
+    "level_code",
+    "level_kind",
+    "grade",
+    "course_code",
+    "knowledge_skill_number",
+    "student_expectation",
+    "subexpectation"
+  ],
+  "scope_fields": [
+    "source_namespace",
+    "framework_ref"
+  ],
+  "source_label_policy": "preserve_exact_privately",
+  "source_tag_policy": "preserve_separately_privately",
+  "unavailable_description": null,
+  "sort_order": "level_kind_level_code_number_expectation_natural_subexpectation",
+  "catalog_database_format": 3,
+  "packet_scope_field": "standards_scope_key",
+  "named_course_policy": "require_explicit_subject_framework_version_and_course_code",
+  "source_tag_required": false,
+  "source_forms": [
+    "dotted",
+    "parenthetical",
+    "compact"
+  ],
+  "course_scope_fields": [
+    "subject",
+    "framework_version",
+    "course_code"
+  ],
+  "level_kinds": [
+    "kindergarten",
+    "grade",
+    "course"
+  ]
+}

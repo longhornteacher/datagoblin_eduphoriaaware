@@ -1,0 +1,343 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "method_id",
+    "version",
+    "status",
+    "format",
+    "sheet_policy",
+    "grain",
+    "unknown_layout_policy",
+    "formula_policy",
+    "missing_metric_policy",
+    "processing_spec",
+    "detection",
+    "fields",
+    "dynamic_axis",
+    "export_tables",
+    "observation_ids",
+    "blocking_unknowns",
+    "implementation",
+    "standards_policy"
+  ],
+  "properties": {
+    "method_id": {
+      "enum": [
+        "student_learning_standards",
+        "group_item_analysis"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "status": {
+      "const": "observed_structure_only"
+    },
+    "format": {
+      "const": "xlsx"
+    },
+    "sheet_policy": {
+      "const": "exactly_one_worksheet"
+    },
+    "grain": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unknown_layout_policy": {
+      "const": "quarantine"
+    },
+    "formula_policy": {
+      "const": "reject_in_mapped_fields"
+    },
+    "missing_metric_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blank_value",
+        "blank_status",
+        "literal_status",
+        "unverified_sentinel"
+      ],
+      "properties": {
+        "blank_value": {
+          "type": "null"
+        },
+        "blank_status": {
+          "const": "source_blank"
+        },
+        "literal_status": {
+          "const": "reported"
+        },
+        "unverified_sentinel": {
+          "const": "quarantine"
+        }
+      }
+    },
+    "processing_spec": {
+      "const": "../common.md"
+    },
+    "detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_headers",
+        "optional_headers",
+        "observed_header_rows",
+        "header_normalization",
+        "duplicate_headers",
+        "unknown_populated_columns"
+      ],
+      "properties": {
+        "required_headers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "optional_headers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "observed_header_rows": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "header_normalization": {
+          "const": "trim_collapse_whitespace_preserve_case"
+        },
+        "duplicate_headers": {
+          "const": "quarantine"
+        },
+        "unknown_populated_columns": {
+          "const": "quarantine"
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "target",
+          "value_type",
+          "required",
+          "privacy",
+          "unit",
+          "observed_formats",
+          "notes"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^[a-z_]+\\.[a-z_]+$"
+          },
+          "value_type": {
+            "enum": [
+              "text",
+              "integer",
+              "number",
+              "ratio",
+              "unverified_flag"
+            ]
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "privacy": {
+            "enum": [
+              "private",
+              "allowlist_requires_review"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_formats": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "dynamic_axis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "container_header",
+        "standard_label_pattern",
+        "pattern_dialect",
+        "canonical_rule",
+        "count_policy",
+        "duplicate_key_policy"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "standard_columns",
+            "question_rows"
+          ]
+        },
+        "container_header": {
+          "type": "string",
+          "minLength": 1
+        },
+        "standard_label_pattern": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pattern_dialect": {
+          "const": "python_re"
+        },
+        "canonical_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "count_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "duplicate_key_policy": {
+          "const": "quarantine"
+        }
+      }
+    },
+    "export_tables": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "enum": [
+          "student_standard_results",
+          "attempt_summaries",
+          "group_item_results"
+        ]
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[a-z_]+$"
+        },
+        "minItems": 1,
+        "uniqueItems": true
+      }
+    },
+    "observation_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "minItems": 2,
+      "uniqueItems": true
+    },
+    "blocking_unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter_version",
+        "verification",
+        "agent_format"
+      ],
+      "properties": {
+        "adapter_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "verification": {
+          "const": "synthetic_xlsx_only"
+        },
+        "agent_format": {
+          "const": "datagoblin.agent.v1"
+        }
+      }
+    },
+    "standards_policy": {
+      "const": "../standards.json"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DataGoblin report method contract",
+  "description": "Specification validation only. Does not implement or certify an importer.",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "method_id": {
+            "const": "student_learning_standards"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "dynamic_axis": {
+            "properties": {
+              "kind": {
+                "const": "standard_columns"
+              }
+            }
+          },
+          "export_tables": {
+            "required": [
+              "student_standard_results",
+              "attempt_summaries"
+            ],
+            "maxProperties": 2
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "dynamic_axis": {
+            "properties": {
+              "kind": {
+                "const": "question_rows"
+              }
+            }
+          },
+          "export_tables": {
+            "required": [
+              "group_item_results"
+            ],
+            "maxProperties": 1
+          }
+        }
+      }
+    }
+  ]
+}

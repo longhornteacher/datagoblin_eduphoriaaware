@@ -1,0 +1,3 @@
+-r requirements.txt
+# Contract/schema validation.
+jsonschema>=4.18,<5

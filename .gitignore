@@ -1,0 +1,27 @@
+# Local source reports and private processing artifacts are never project fixtures.
+/report examples/
+/recentexamples/
+/private/
+/raw/
+/agent_exports/
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.pdf
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.log
+.env
+.env.*
+!.env.example
+.datagoblin.local.toml
+/datagoblin_sync/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/

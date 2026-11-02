@@ -1,0 +1,30 @@
+{
+  "fixture_kind": "independently_constructed_synthetic_layout_cases",
+  "contains_student_records": false,
+  "cases": [
+    {
+      "name": "two_standard_columns",
+      "method_id": "student_learning_standards",
+      "standard_headers": ["7.1(A) [R]", "7.2(B.i) [S]"],
+      "expected_codes": ["7.1.A", "7.2.B.i"]
+    },
+    {
+      "name": "four_standard_columns",
+      "method_id": "student_learning_standards",
+      "standard_headers": ["7.1(A) [R]", "7.2(B.i) [S]", "7.2(B.ii) [R]", "7.3(C) [S]"],
+      "expected_codes": ["7.1.A", "7.2.B.i", "7.2.B.ii", "7.3.C"]
+    },
+    {
+      "name": "three_noncontiguous_questions",
+      "method_id": "group_item_analysis",
+      "question_labels": [1, 4, 9],
+      "standard_codes": ["7.1.A", "7.2.B.i"]
+    },
+    {
+      "name": "five_questions",
+      "method_id": "group_item_analysis",
+      "question_labels": [1, 2, 3, 4, 5],
+      "standard_codes": ["7.1.A", "7.2.B.i", "7.2.B.ii", "7.3.C"]
+    }
+  ]
+}

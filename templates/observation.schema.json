@@ -1,0 +1,265 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidence_kind",
+    "observed_on",
+    "administration_year",
+    "grade",
+    "sheet_count",
+    "contains_student_records",
+    "retained_scope",
+    "formula_cells_observed",
+    "hidden_rows_or_columns_observed",
+    "observation_id",
+    "method_id",
+    "header_rows",
+    "headers",
+    "header_merges",
+    "standard_codes",
+    "formats_by_field",
+    "notes",
+    "subject",
+    "framework_version",
+    "standards_scope_ref",
+    "level_code",
+    "course_code"
+  ],
+  "properties": {
+    "evidence_kind": {
+      "const": "manually_reviewed_structure_only"
+    },
+    "observed_on": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "administration_year": {
+      "type": "integer",
+      "minimum": 2000
+    },
+    "grade": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 12
+    },
+    "sheet_count": {
+      "const": 1
+    },
+    "contains_student_records": {
+      "const": false
+    },
+    "retained_scope": {
+      "const": "headers_merges_labels_formats_only"
+    },
+    "formula_cells_observed": {
+      "type": "boolean"
+    },
+    "hidden_rows_or_columns_observed": {
+      "type": "boolean"
+    },
+    "observation_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "method_id": {
+      "enum": [
+        "student_learning_standards",
+        "group_item_analysis"
+      ]
+    },
+    "header_rows": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "headers": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[A-Z]+[1-9][0-9]*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "header_merges": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]+[1-9][0-9]*:[A-Z]+[1-9][0-9]*$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "standard_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "formats_by_field": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "standard_headers": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[A-Z]+[1-9][0-9]*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "standard_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "blank_trailing_columns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]+$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "group_merge": {
+      "type": "string",
+      "pattern": "^[A-Z]+[1-9][0-9]*:[A-Z]+[1-9][0-9]*$"
+    },
+    "question_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "question_labels": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "table_or_filter_layout_observed": {
+      "type": "boolean"
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "framework_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "standards_scope_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "level_code": {
+      "type": "string",
+      "pattern": "^(0|[1-9]|1[0-2]|[A-Z][A-Z0-9_-]{0,31})$"
+    },
+    "course_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[A-Z][A-Z0-9_-]{0,31}$"
+    },
+    "comparison_group": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Structure-only report observation",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "method_id": {
+            "const": "student_learning_standards"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "standard_headers",
+          "standard_count",
+          "blank_trailing_columns"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "group_merge"
+              ]
+            },
+            {
+              "required": [
+                "question_count"
+              ]
+            },
+            {
+              "required": [
+                "question_labels"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "group_merge",
+          "question_count",
+          "question_labels"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "standard_headers"
+              ]
+            },
+            {
+              "required": [
+                "standard_count"
+              ]
+            },
+            {
+              "required": [
+                "blank_trailing_columns"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

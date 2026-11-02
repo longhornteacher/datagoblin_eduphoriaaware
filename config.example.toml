@@ -1,0 +1,5 @@
+# Legacy format reference. Prefer DATAGOBLIN_SYNC_DIR outside the repository.
+# A personal local config must be removed from the workspace before publication.
+# TOML literal strings preserve Windows backslashes.
+config_version = 1
+sync_dir = 'C:\path\to\datagoblin_sync'
